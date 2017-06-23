@@ -27,7 +27,9 @@ class GameObject:
         
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()
 font = pygame.font.Font("star.ttf", 30)
+pill_sound = pygame.mixer.Sound("pill.wav")
 white = (255, 255, 255)
 game_over_text = font.render("game over", True, white)
 
@@ -108,6 +110,7 @@ while 1:
             if spaceship.rect.colliderect(bonus.rect):
                 bonus.rect.y = height
                 points += 1
+                pill_sound.play()
                 
         bonuses = [bonus for bonus in bonuses if bonus.rect.x < height]
             
