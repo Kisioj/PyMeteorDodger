@@ -27,9 +27,9 @@ while 1:
         if event.type == KEYUP:
             keys_down.remove(event.key)
             
-    if K_LEFT in keys_down:
+    if K_LEFT in keys_down and spaceship_rect.x > 0:
         spaceship_rect.x -= 8
-    if K_RIGHT in keys_down:
+    if K_RIGHT in keys_down and spaceship_rect.x + spaceship_rect.w < width:
         spaceship_rect.x += 8
             
     screen.blit(background_image, background_rect)
