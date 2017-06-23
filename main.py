@@ -7,7 +7,7 @@ pygame.display.set_caption("Asteroid Dodger")
 screen = pygame.display.set_mode(size)
 
 background_image = pygame.image.load("background.png").convert()
-background_rect = Rect(0, -768, 0, 0)
+background_rect = background_image.get_rect()
 
 while 1:
     for event in pygame.event.get():
