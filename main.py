@@ -10,6 +10,9 @@ class GameObject:
     def render(self):
         screen.blit(self.image, self.rect)
 
+    def small_rect(self):
+        return Rect(self.rect.x + 15, self.rect.y + 30, 69, 25)
+        
 pygame.init()
 pygame.font.init()
 font = pygame.font.Font("star.ttf", 30)
@@ -73,7 +76,8 @@ while 1:
         for meteor in meteors:
             meteor.rect.y += 8
             meteor.render()
-            if spaceship.rect.colliderect(meteor.rect):
+            if spaceship.small_rect().colliderect(meteor.rect):
+                # pygame.draw.rect(screen, white, spaceship.small_rect())
                 game_over = True
                 screen.blit(game_over_text, (width / 2 - game_over_text.get_rect().w / 2, height / 2 - 100))
                 
