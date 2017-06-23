@@ -14,6 +14,7 @@ background_rect = background_image.get_rect()
 
 spaceship_image = pygame.image.load("spaceship.png")
 spaceship_rect = spaceship_image.get_rect()
+spaceship_rect.y = height - spaceship_rect.h
 
 
 
