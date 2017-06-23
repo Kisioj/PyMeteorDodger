@@ -44,6 +44,14 @@ meteor_images = [
     pygame.image.load("meteor8.png")
 ]
 meteors = []
+
+bonus_images = [
+    pygame.image.load("pill_blue.png"),
+    pygame.image.load("pill_green.png"),
+    pygame.image.load("pill_red.png"),
+    pygame.image.load("pill_yellow.png")
+]
+bonuses = []
         
 while 1:
     for event in pygame.event.get():
@@ -66,6 +74,12 @@ while 1:
             meteor.rect.x = random.randint(-50, 462)
             meteor.rect.y = -meteor.rect.h
             meteors.append(meteor)
+        elif random.randint(1, 100) == 1:
+            bonus_image = random.choice(bonus_images)
+            bonus = GameObject(bonus_image)
+            bonus.rect.x = random.randint(0, 490)
+            bonus.rect.y = -bonus.rect.h
+            bonuses.append(bonus)
         
         background_rect.y += 4
         if background_rect.y >= 0:
@@ -73,6 +87,14 @@ while 1:
      
         screen.blit(background_image, background_rect)
         spaceship.render()
+        for bonus in bonuses:
+            bonus.rect.y += 4
+            bonus.render()
+            if spaceship.rect.colliderect(bonus.rect):
+                bonus.rect.y = height
+                
+        bonuses = [bonus for bonus in bonuses if bonus.rect.x < height]
+            
         for meteor in meteors:
             meteor.rect.y += 8
             meteor.render()
@@ -80,7 +102,6 @@ while 1:
                 # pygame.draw.rect(screen, white, spaceship.small_rect())
                 game_over = True
                 screen.blit(game_over_text, (width / 2 - game_over_text.get_rect().w / 2, height / 2 - 100))
-                
         meteors = [meteor for meteor in meteors if meteor.rect.y < height]
         
         pygame.display.flip()
