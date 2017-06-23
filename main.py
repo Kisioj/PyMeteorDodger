@@ -25,6 +25,7 @@ screen = pygame.display.set_mode(size)
 keys_down = set()
 clock = pygame.time.Clock()
 game_over = False
+points = 0
 
 background_image = pygame.image.load("background.png").convert()
 background_rect = background_image.get_rect()
@@ -92,6 +93,7 @@ while 1:
             bonus.render()
             if spaceship.rect.colliderect(bonus.rect):
                 bonus.rect.y = height
+                points += 1
                 
         bonuses = [bonus for bonus in bonuses if bonus.rect.x < height]
             
@@ -99,10 +101,17 @@ while 1:
             meteor.rect.y += 8
             meteor.render()
             if spaceship.small_rect().colliderect(meteor.rect):
-                # pygame.draw.rect(screen, white, spaceship.small_rect())
                 game_over = True
-                screen.blit(game_over_text, (width / 2 - game_over_text.get_rect().w / 2, height / 2 - 100))
+
+                
         meteors = [meteor for meteor in meteors if meteor.rect.y < height]
+        
+        if game_over:
+            screen.blit(game_over_text, (width / 2 - game_over_text.get_rect().w / 2, height / 2 - 100))
+            pygame.draw.rect(screen, white, spaceship.small_rect())
+        
+        points_text = font.render("pills: " + str(points), True, white)
+        screen.blit(points_text, (10, 0))
         
         pygame.display.flip()
     clock.tick(60)
