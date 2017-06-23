@@ -31,7 +31,11 @@ while 1:
         spaceship_rect.x -= 8
     if K_RIGHT in keys_down and spaceship_rect.x + spaceship_rect.w < width:
         spaceship_rect.x += 8
-            
+    
+    background_rect.y += 4
+    if background_rect.y >= 0:
+        background_rect.y -= 768
+
     screen.blit(background_image, background_rect)
     screen.blit(spaceship_image, spaceship_rect)
     pygame.display.flip()
