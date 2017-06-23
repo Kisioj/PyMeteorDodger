@@ -6,12 +6,24 @@ class GameObject:
     def __init__(self, image):
         self.image = image
         self.rect = image.get_rect()
+        self.angle = 0
         
     def render(self):
-        screen.blit(self.image, self.rect)
+        if self.angle > 0:
+            image, rect = self.rotated_image()
+        else:
+            image, rect = self.image, self.rect
+    
+        screen.blit(image, rect)
 
+    def rotated_image(self):
+        image = pygame.transform.rotate(self.image, self.angle)
+        rect = image.get_rect()
+        rect.center = self.rect.center
+        return image, rect
+        
     def small_rect(self):
-        return Rect(self.rect.x + 15, self.rect.y + 30, 69, 25)
+        return Rect(self.rect.x + 15, self.rect.y + 30, 69, 5)
         
 pygame.init()
 pygame.font.init()
@@ -90,6 +102,8 @@ while 1:
         spaceship.render()
         for bonus in bonuses:
             bonus.rect.y += 4
+            bonus.angle -= 4
+            bonus.angle %= 360
             bonus.render()
             if spaceship.rect.colliderect(bonus.rect):
                 bonus.rect.y = height
@@ -99,6 +113,8 @@ while 1:
             
         for meteor in meteors:
             meteor.rect.y += 8
+            meteor.angle += 1
+            meteor.angle %= 360
             meteor.render()
             if spaceship.small_rect().colliderect(meteor.rect):
                 game_over = True
